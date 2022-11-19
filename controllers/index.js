@@ -16,5 +16,22 @@ module.exports = {
     let q = req.body.searchInput
     let menuData = null
     let qry = {name: {$regex: '^' + q, $options: 'i'}}
+
+    if(q != null) {
+      let menuResult = await menu.find(qry)
+      .then((data) => {
+        menuData = data
+      })
+    } else {
+      q = 'Search'
+      let menuResult = await menu.find(qry)
+      .then((data) => {
+        menuData = data
+      })
+    }
+
+    res.render('index', {title: 'Menu Tracker', data: menuData, search: q, loggedIn: sesh.loggedIn})
+
+
   }
 }
